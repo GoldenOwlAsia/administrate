@@ -4,8 +4,8 @@ module Admin
     # simply overwrite any of the RESTful actions. For example:
     #
     # def index
-    #   super
-    #   @resources = <%= class_name %>.all.paginate(10, params[:page])
+    @   @resources = get_resource_index.includes(:employer, :employer_location).page(params[:page]).per(records_per_page)
+    #   render_index
     # end
 
     # Define a custom finder by overriding the `find_resource` method:
