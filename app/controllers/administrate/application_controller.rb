@@ -4,13 +4,7 @@ module Administrate
 
     def index
       resources = get_resource_index.page(params[:page]).per(records_per_page)
-      page = Administrate::Page::Collection.new(dashboard, order: order)
-
-      render locals: {
-        resources: resources,
-        search_term: search_term,
-        page: page,
-      }
+      render_index(resources)
     end
 
     def show
@@ -71,6 +65,16 @@ module Administrate
       search_term = params[:search].to_s.strip
       resources = Administrate::Search.new(resource_resolver, search_term).run
       resources = order.apply(resources)
+    end
+
+    def render_index(resources)
+      page = Administrate::Page::Collection.new(dashboard, order: order)
+
+      render locals: {
+        resources: resources,
+        search_term: search_term,
+        page: page,
+      }
     end
 
     private
