@@ -3,10 +3,7 @@ module Administrate
     protect_from_forgery with: :exception
 
     def index
-      search_term = params[:search].to_s.strip
-      resources = Administrate::Search.new(resource_resolver, search_term).run
-      resources = order.apply(resources)
-      resources = resources.page(params[:page]).per(records_per_page)
+      resources = get_resource_index.page(params[:page]).per(records_per_page)
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
       render locals: {
@@ -66,6 +63,14 @@ module Administrate
       requested_resource.destroy
       flash[:notice] = translate_with_resource("destroy.success")
       redirect_to action: :index
+    end
+
+    protected
+
+    def get_resource_index
+      search_term = params[:search].to_s.strip
+      resources = Administrate::Search.new(resource_resolver, search_term).run
+      resources = order.apply(resources)
     end
 
     private
