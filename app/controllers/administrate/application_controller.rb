@@ -4,7 +4,7 @@ module Administrate
 
     def index
       resources = get_resource_index.page(params[:page]).per(records_per_page)
-      render_index(resources)
+      render_index
     end
 
     def show
