@@ -63,8 +63,8 @@ module Administrate
 
     def get_resource_index
       @search_term = params[:search].to_s.strip
-      @resources = Administrate::Search.new(resource_resolver, search_term).run
-      @resources = order.apply(resources)
+      @resources = Administrate::Search.new(resource_resolver, @search_term).run
+      @resources = order.apply(@resources)
     end
 
     def render_index
